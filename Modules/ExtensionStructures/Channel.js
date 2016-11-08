@@ -10,7 +10,7 @@ module.exports = class Channel {
 
 		this.createMessage = (content, file, cb) => {
 			erisChannel.createMessage(content, file).then(erisMessage => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					const Message = require("./Message");
 					cb(new Message(erisMessage));
 				}
@@ -19,7 +19,7 @@ module.exports = class Channel {
 
 		this.deleteMessage = (messageID, cb) => {
 			erisChannel.deleteMessage(messageID).then(() => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});
@@ -27,7 +27,7 @@ module.exports = class Channel {
 
 		this.deleteMessages = (messageIDs, cb) => {
 			erisChannel.deleteMessages(messageIDs).then(() => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});
@@ -35,7 +35,7 @@ module.exports = class Channel {
 
 		this.editMessage = (messageID, cb) => {
 			erisChannel.editMessage(messageID).then(erisMessage => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					const Message = require("./Message");
 					cb(new Message(erisMessage));
 				}
@@ -44,19 +44,19 @@ module.exports = class Channel {
 
 		this.getMessages = (limit, before, after, around, cb) => {
 			erisChannel.getMessages(limit, before, after, around).then(erisMessages => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					const Message = require("./Message");
-					let messages = erisMessages.map(erisMessage => new Message(erisMessage));
+					const messages = erisMessages.map(erisMessage => new Message(erisMessage));
 					cb(messages);
 				}
 			});
 		};
 
-		this.getPins = (cb) => {
+		this.getPins = cb => {
 			erisChannel.getPins().then(erisMessages => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					const Message = require("./Message");
-					let messages = erisMessages.map(erisMessage => new Message(erisMessage));
+					const messages = erisMessages.map(erisMessage => new Message(erisMessage));
 					cb(messages);
 				}
 			});
@@ -64,7 +64,7 @@ module.exports = class Channel {
 
 		this.pinMessage = (messageID, cb) => {
 			erisChannel.pinMessage(messageID).then(() => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});
@@ -72,15 +72,15 @@ module.exports = class Channel {
 
 		this.purge = (limit, filter, before, after, cb) => {
 			erisChannel.purge(limit, filter, before, after).then(numDeleted => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb(numDeleted);
 				}
 			});
 		};
 
-		this.sendTyping = (cb) => {
+		this.sendTyping = cb => {
 			erisChannel.sendTyping().then(() => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});
@@ -88,7 +88,7 @@ module.exports = class Channel {
 
 		this.unpinMessage = (messageID, cb) => {
 			erisChannel.unpinMessage(messageID).then(() => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});
@@ -96,7 +96,7 @@ module.exports = class Channel {
 
 		this.unsendMessage = (messageID, cb) => {
 			erisChannel.unsendMessage(messageID).then(() => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});

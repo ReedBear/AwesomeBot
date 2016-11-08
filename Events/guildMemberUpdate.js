@@ -4,14 +4,14 @@ module.exports = (bot, db, config, winston, svr, member, oldmemberdata) => {
 		if(!err && serverDocument) {
 			// Send member_nick_updated_message if necessary
 			if(serverDocument.config.moderation.status_messages.member_nick_updated_message.isEnabled) {
-				var ch = svr.channels.get(serverDocument.config.moderation.status_messages.member_nick_updated_message.channel_id);
+				const ch = svr.channels.get(serverDocument.config.moderation.status_messages.member_nick_updated_message.channel_id);
 				if(ch) {
-					var channelDocument = serverDocument.channels.id(ch.id);
+					const channelDocument = serverDocument.channels.id(ch.id);
 					if(!channelDocument || channelDocument.bot_enabled) {
 						// Nickname added
 						if(oldmemberdata.nick!=member.nick && !oldmemberdata.nick && member.nick) {
 							ch.createMessage({
-								content: "**@" + bot.getName(svr, serverDocument, member) + "** got a nick: `" + member.nick + "`",
+								content: `**@${bot.getName(svr, serverDocument, member)}** got a nick: \`${member.nick}\``,
 								disableEveryone: true
 							});
 						}
@@ -19,7 +19,7 @@ module.exports = (bot, db, config, winston, svr, member, oldmemberdata) => {
 						// Nickname changed
 						if(oldmemberdata.nick!=member.nick && oldmemberdata.nick && member.nick) {
 							ch.createMessage({
-								content: "**@" + bot.getName(svr, serverDocument, member) + "** changed their nick from `" + oldmemberdata.nick + "` to `" + member.nick + "`",
+								content: `**@${bot.getName(svr, serverDocument, member)}** changed their nick from \`${oldmemberdata.nick}\` to \`${member.nick}\``,
 								disableEveryone: true
 							});
 						}
@@ -27,7 +27,7 @@ module.exports = (bot, db, config, winston, svr, member, oldmemberdata) => {
 						// Nickname removed
 						if(oldmemberdata.nick!=member.nick && oldmemberdata.nick && !member.nick) {
 							ch.createMessage({
-								content: "**@" + bot.getName(svr, serverDocument, member) + "** removed their nick (`" + oldmemberdata.nick + "`)",
+								content: `**@${bot.getName(svr, serverDocument, member)}** removed their nick (\`${oldmemberdata.nick}\`)`,
 								disableEveryone: true
 							});
 						}

@@ -2,7 +2,7 @@
 module.exports = {
 	startTiming: (winston, svr, serverDocument, member) => {
 		// Begin timing voice activity
-		var voiceDocument = serverDocument.voice_data.id(member.id);
+		let voiceDocument = serverDocument.voice_data.id(member.id);
 		if(!voiceDocument) {
 			serverDocument.voice_data.push({
 				_id: member.id,
@@ -12,7 +12,7 @@ module.exports = {
 		}
 
 		// Set now as the last active time for member
-		var memberDocument = serverDocument.members.id(member.id);
+		let memberDocument = serverDocument.members.id(member.id);
 		if(!memberDocument) {
 			serverDocument.members.push({_id: member.id});
 			memberDocument = serverDocument.members.id(member.id);
@@ -28,9 +28,9 @@ module.exports = {
 	},
 	stopTiming: (bot, winston, svr, serverDocument, member) => {
 		// Calculate activity score for voice connection
-		var voiceDocument = serverDocument.voice_data.id(member.id);
+		const voiceDocument = serverDocument.voice_data.id(member.id);
 		if(voiceDocument) {
-			var memberDocument = serverDocument.members.id(member.id);
+			let memberDocument = serverDocument.members.id(member.id);
 			if(!memberDocument) {
 				serverDocument.members.push({_id: member.id});
 				memberDocument = serverDocument.members.id(member.id);
@@ -38,13 +38,13 @@ module.exports = {
 			memberDocument.voice += Math.floor((Date.now() - voiceDocument.started_timestamp)/60000);
 			voiceDocument.remove();
 			bot.checkRank(winston, svr, serverDocument, member, memberDocument);
-		}
 
-		// Save changes to serverDocument
-		serverDocument.save(err => {
-			if(err) {
-				winston.error("Failed to save server data for voice activity", {svrid: svr.id}, err);
-			}
-		});
+			// Save changes to serverDocument
+			serverDocument.save(err => {
+				if(err) {
+					winston.error("Failed to save server data for voice activity", {svrid: svr.id}, err);
+				}
+			});
+		}
 	}
 };

@@ -25,121 +25,121 @@ module.exports = class Bot {
 			return bot.memberSearch(str, svr);
 		};
 		this.getMemberName = (usrid, ignoreNick) => {
-			var member = svr.members.get(usrid);
+			const member = svr.members.get(usrid);
 			if(!member) {
 				return;
 			}
 			return bot.getName(svr, serverDocument, member, ignoreNick);
 		};
 		this.getMemberAdminLevel = usrid => {
-			var member = svr.members.get(usrid);
+			const member = svr.members.get(usrid);
 			if(!member) {
 				return;
 			}
 			return bot.getUserBotAdmin(svr, serverDocument, member);
 		};
-        this.getMemberData = (usrid, callback) => {
-        	var member = svr.members.get(usrid);
+		this.getMemberData = (usrid, callback) => {
+			const member = svr.members.get(usrid);
 			if(!member) {
 				callback(new Error("Invalid member ID"));
 			}
-        	var memberDocument = serverDocument.members.id(member.id);
+			const memberDocument = serverDocument.members.id(member.id);
 			callback(memberDocument ? memberDocument.toObject() : null);
-        };
-        this.addMemberStrike = (usrid, reason, callback) => {
-        	var member = svr.members.get(usrid);
+		};
+		this.addMemberStrike = (usrid, reason, callback) => {
+			const member = svr.members.get(usrid);
 			if(!member) {
 				callback(new Error("Invalid member ID"));
 				return;
 			}
-        	if(!member.user.bot) {
-	        	var memberDocument = serverDocument.members.id(member.id);
-	        	if(!memberDocument) {
+			if(!member.user.bot) {
+				let memberDocument = serverDocument.members.id(member.id);
+				if(!memberDocument) {
 					serverDocument.members.push({_id: member.id});
 					memberDocument = serverDocument.members.id(member.id);
 				}
-	            memberDocument.strikes.push({
-	            	_id: bot.user.id,
-	            	reason: reason
-	            });
-	            serverDocument.save(err => {
-	            	callback(err, memberDocument);
-	            });
-            }
-        };
-        this.setMemberDataKey = (usrid, key, value, callback) => {
-        	var member = svr.members.get(usrid);
+				memberDocument.strikes.push({
+					_id: bot.user.id,
+					reason
+				});
+				serverDocument.save(err => {
+					callback(err, memberDocument);
+				});
+			}
+		};
+		this.setMemberDataKey = (usrid, key, value, callback) => {
+			const member = svr.members.get(usrid);
 			if(!member) {
 				callback(new Error("Invalid member ID"));
 				return;
 			}
-        	if(!member.user.bot) {
-	        	var memberDocument = serverDocument.members.id(member.id);
-	        	if(!memberDocument) {
-					serverDocument.members.push({_id: member.id});
-					memberDocument = serverDocument.members.id(member.id);
-				}
-				if(!memberDocument.profile_fields) {
-					memberDocument.profile_fields = {};
-				}
-	            memberDocument.profile_fields[key] = value;
-	            serverDocument.markModified("members");
-	            serverDocument.save(err => {
-	            	callback(err, memberDocument);
-	            });
-            }
-        };
-        this.deleteMemberDataKey = (usrid, key, callback) => {
-        	var member = svr.members.get(usrid);
-			if(!member) {
-				callback(new Error("Invalid member ID"));
-				return;
-			}
-        	if(!member.user.bot) {
-	        	var memberDocument = serverDocument.members.id(member.id);
-	        	if(!memberDocument) {
+			if(!member.user.bot) {
+				let memberDocument = serverDocument.members.id(member.id);
+				if(!memberDocument) {
 					serverDocument.members.push({_id: member.id});
 					memberDocument = serverDocument.members.id(member.id);
 				}
 				if(!memberDocument.profile_fields) {
 					memberDocument.profile_fields = {};
 				}
-	            delete memberDocument.profile_fields[key];
-	            serverDocument.save(err => {
-	            	callback(err, memberDocument);
-	            });
-            }
-        };
-        this.getUserData = (usrid, callback) => {
-        	var member = svr.members.get(usrid);
+				memberDocument.profile_fields[key] = value;
+				serverDocument.markModified("members");
+				serverDocument.save(err => {
+					callback(err, memberDocument);
+				});
+			}
+		};
+		this.deleteMemberDataKey = (usrid, key, callback) => {
+			const member = svr.members.get(usrid);
+			if(!member) {
+				callback(new Error("Invalid member ID"));
+				return;
+			}
+			if(!member.user.bot) {
+				let memberDocument = serverDocument.members.id(member.id);
+				if(!memberDocument) {
+					serverDocument.members.push({_id: member.id});
+					memberDocument = serverDocument.members.id(member.id);
+				}
+				if(!memberDocument.profile_fields) {
+					memberDocument.profile_fields = {};
+				}
+				delete memberDocument.profile_fields[key];
+				serverDocument.save(err => {
+					callback(err, memberDocument);
+				});
+			}
+		};
+		this.getUserData = (usrid, callback) => {
+			const member = svr.members.get(usrid);
 			if(!member) {
 				callback(null);
 				return;
 			}
-        	db.users.findOne({_id: member.id}, (err, userDocument) => {
-        		callback(userDocument ? userDocument.toObject() : null);
-        	});
-        };
-    	this.handleViolation = (chid, memberid, userMessage, adminMessage, strikeMessage, action, roleid) => {
-    		var ch = svr.channels.get(chid);
-    		var member = svr.members.get(usrid);
+			db.users.findOne({_id: member.id}, (err, userDocument) => {
+				callback(userDocument ? userDocument.toObject() : null);
+			});
+		};
+		this.handleViolation = (chid, memberid, userMessage, adminMessage, strikeMessage, action, roleid) => {
+			const ch = svr.channels.get(chid);
+			const member = svr.members.get(memberid);
 			if(!ch || !member) {
 				return;
 			}
-    		if(!member.user.bot) {
-    			db.users.findOrCreate({_id: member.id}, (err, userDocument) => {
-        			if(!err && userDocument) {
-		    			var memberDocument = serverDocument.members.id(member.id);
-			        	if(!memberDocument) {
+			if(!member.user.bot) {
+				db.users.findOrCreate({_id: member.id}, (err, userDocument) => {
+					if(!err && userDocument) {
+						let memberDocument = serverDocument.members.id(member.id);
+						if(!memberDocument) {
 							serverDocument.members.push({_id: member.id});
 							memberDocument = serverDocument.members.id(member.id);
 						}
-			            serverDocument.save(err => {
-			            	bot.handleViolation(winston, svr, serverDocument, ch, member, userDocument, memberDocument, userMessage, adminMessage, strikeMessage, action, roleid);
-		            	});
-	            	}
-            	});
-    		}
-    	};
+						serverDocument.save(() => {
+							bot.handleViolation(winston, svr, serverDocument, ch, member, userDocument, memberDocument, userMessage, adminMessage, strikeMessage, action, roleid);
+						});
+					}
+				});
+			}
+		};
 	}
-}
+};

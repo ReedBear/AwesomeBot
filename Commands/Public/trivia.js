@@ -2,15 +2,15 @@ const Trivia = require("./../../Modules/Trivia.js");
 
 module.exports = (bot, db, config, winston, userDocument, serverDocument, channelDocument, memberDocument, msg, suffix, commandData) => {
 	if(suffix) {
-		var action = suffix.split(" ")[0].toLowerCase();
+		const action = suffix.split(" ")[0].toLowerCase();
 		if(action!="start" && !channelDocument.trivia.isOngoing) {
-			msg.channel.createMessage("There isn't an ongiong trivia game in this channel. 🍎 Use `" + bot.getCommandPrefix(msg.guild, serverDocument) + commandData.name + " start` to get started.");
+			msg.channel.createMessage(`There isn't an ongiong trivia game in this channel. 🍎 Use \`${bot.getCommandPrefix(msg.guild, serverDocument)}${commandData.name} start\` to get started.`);
 			return;
 		}
 
+		let set;
 		switch(action) {
 			case "start":
-				var set;
 				if(suffix.indexOf(" ")>-1) {
 					set = suffix.substring(suffix.indexOf(" ")+1);
 				}
@@ -30,9 +30,9 @@ module.exports = (bot, db, config, winston, userDocument, serverDocument, channe
 		}
 	} else {
 		if(channelDocument.trivia.isOngoing) {
-			msg.channel.createMessage("**🎳 Trivia game" + (channelDocument.trivia.set=="default" ? "" : (" (set: " + channelDocument.trivia.set + ")")) + "**\n" + channelDocument.trivia.past_questions.length + " question" + (channelDocument.trivia.past_questions.length==1 ? "" : "s") + "\tScore: " + channelDocument.trivia.score);
+			msg.channel.createMessage(`**🎳 Trivia game${channelDocument.trivia.set=="default" ? "" : (` (set: ${channelDocument.trivia.set})`)}**\n${channelDocument.trivia.past_questions.length} question${channelDocument.trivia.past_questions.length==1 ? "" : "s"}\tScore: ${channelDocument.trivia.score}`);
 		} else {
-			msg.channel.createMessage("Use `" + bot.getCommandPrefix(msg.guild, serverDocument) + commandData.name + " start` 🎮");
+			msg.channel.createMessage(`Use \`${bot.getCommandPrefix(msg.guild, serverDocument)}${commandData.name} start\` 🎮`);
 		}
 	}
 };

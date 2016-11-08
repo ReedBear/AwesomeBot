@@ -9,8 +9,6 @@
 	<script src="/js/form-change-listener.js"></script>
 	<script>
 	function newMute() {
-		hide_update_modal = true;
-		
 		var newMutedMember = $("#new-mute-member");
 		if(newMutedMember.val()) {
 			newMutedMember.removeClass("is-danger");
@@ -38,10 +36,9 @@
 	</script>
 </head>
 <body onload="saveFormState();setUserAutocomplete('<%= serverData.id %>');">
-	<% include ../partials/donate %>
 	<% include ../partials/dashboard-header %>
 	<% include ../partials/dashboard-socket-updates %>
-		
+
 	<section class="section is-white">
 		<div class="container">
 			<div class="columns">
@@ -167,12 +164,7 @@
 							<br>
 							<% var formButtonsUnsaved = false; %>
 							<% include ../partials/form-buttons %>
-							<div id="form-buttons" style="display:none;background-color:#f5f7fa;position: fixed;padding: 20px;left: 50%;transform: translate(-50%, 0%);bottom: 0px;z-index: 100;width: 100%;">
-								<div class="container">
-									<% var formButtonsUnsaved = true; %>
-									<% include ../partials/form-buttons %>
-								</div>
-							</div>
+							<% include ../partials/form-buttons-bar %>
 						</form>
 					</div>
 				</div>

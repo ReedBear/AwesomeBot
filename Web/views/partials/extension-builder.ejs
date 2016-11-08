@@ -51,7 +51,7 @@ function publishExtension() {
 <% } %>
 </script>
 
-<form id="form" action="<%- extensionBuilderPostUrl %><%= extensionData._id ? ("extid=" + extensionData._id) : "" %>" method="post">
+<form id="form" action="<%- extensionBuilderPostUrl %><%= extensionData._id ? ('extid=' + extensionData._id) : "" %>" method="post">
 	<label class="label">Name</label>
 	<p class="control">
 		<input name="name" class="input" type="text" value="<%- extensionData.name %>" minlength="3" maxlength="100" required>

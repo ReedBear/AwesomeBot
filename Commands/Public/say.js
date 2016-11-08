@@ -1,5 +1,5 @@
 module.exports = (bot, db, config, winston, userDocument, serverDocument, channelDocument, memberDocument, msg, suffix, commandData) => {
-	var text = "🙊";
+	let text = "🙊";
 	if(suffix) {
 		text = msg.cleanContent.slice(bot.getCommandPrefix(msg.guild, serverDocument).length + commandData.name.length);
 	}

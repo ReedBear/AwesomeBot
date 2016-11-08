@@ -1,5 +1,6 @@
 "use strict";
 const Channel = require("./Channel");
+const Permission = require("./Permission");
 const Util = require("./../Util");
 
 let g_erisGuildChannel = null;
@@ -19,7 +20,7 @@ module.exports = class GuildChannel extends Channel {
 
 		this.createInvite = (options, cb) => {
 			erisGuildChannel.createInvite(options).then(erisInvite => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					const Invite = require("./Invite");
 					cb(new Invite(erisInvite));
 				}
@@ -28,15 +29,15 @@ module.exports = class GuildChannel extends Channel {
 
 		this.createWebhook = (options, cb) => {
 			erisGuildChannel.createWebhook(options).then(object => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb(object);
 				}
 			});
 		};
 
-		this.delete = (cb) => {
-			erisGuildChannel.delete().then(() => {
-				if (Util.isFunction(cb)) {
+		this["delete"] = cb => {
+			erisGuildChannel["delete"]().then(() => {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});
@@ -44,7 +45,7 @@ module.exports = class GuildChannel extends Channel {
 
 		this.deletePermission = (overwriteID, cb) => {
 			erisGuildChannel.deletePermission(overwriteID).then(() => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});
@@ -52,7 +53,7 @@ module.exports = class GuildChannel extends Channel {
 
 		this.edit = (options, cb) => {
 			erisGuildChannel.edit(options).then(_erisGuildChannel => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					const GuildChannel = require("./GuildChannel");
 					cb(new GuildChannel(_erisGuildChannel));
 				}
@@ -61,7 +62,7 @@ module.exports = class GuildChannel extends Channel {
 
 		this.editPermission = (overwriteID, allow, deny, type, cb) => {
 			erisGuildChannel.editPermission(overwriteID, allow, deny, type).then(erisPermissionOverwrite => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					const PermissionOverwrite = require("./PermissionOverwrite");
 					cb(new PermissionOverwrite(erisPermissionOverwrite));
 				}
@@ -70,31 +71,31 @@ module.exports = class GuildChannel extends Channel {
 
 		this.editPosition = (position, cb) => {
 			erisGuildChannel.editPosition(position).then(() => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});
 		};
 
-		this.getInvites = (cb) => {
+		this.getInvites = cb => {
 			erisGuildChannel.getInvites().then(erisInvites => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					const Invite = require("./Invite");
-					let invites = erisInvites.map(erisInvite => new Invite(erisInvite));
+					const invites = erisInvites.map(erisInvite => new Invite(erisInvite));
 					cb(invites);
 				}
 			});
 		};
 
-		this.getWebhooks = (cb) => {
+		this.getWebhooks = cb => {
 			erisGuildChannel.getWebhooks().then(objects => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb(objects);
 				}
 			});
 		};
 
-		this.permissionsOf = (memberID) => {
+		this.permissionsOf = memberID => {
 			return new Permission(erisGuildChannel.permissionsOf(memberID));
 		};
 	}
@@ -108,8 +109,8 @@ module.exports = class GuildChannel extends Channel {
 		const Collection = require("./Collection");
 		const Message = require("./Message");
 
-		let messages = new Collection(Message);
-		g_erisGuildChannel.messages.forEach((erisMessage, index, map) => {
+		const messages = new Collection(Message);
+		g_erisGuildChannel.messages.forEach(erisMessage => {
 			messages.add(new Message(erisMessage));
 		});
 		return messages;
@@ -119,8 +120,8 @@ module.exports = class GuildChannel extends Channel {
 		const Collection = require("./Collection");
 		const PermissionOverwrite = require("./PermissionOverwrite");
 
-		let permissionOverwrites = new Collection(PermissionOverwrite);
-		g_erisGuildChannel.permissionOverwrites.forEach((erisPermissionOverwrite, index, map) => {
+		const permissionOverwrites = new Collection(PermissionOverwrite);
+		g_erisGuildChannel.permissionOverwrites.forEach(erisPermissionOverwrite => {
 			permissionOverwrites.add(new PermissionOverwrite(erisPermissionOverwrite));
 		});
 		return permissionOverwrites;
@@ -128,12 +129,12 @@ module.exports = class GuildChannel extends Channel {
 
 	get voiceMembers() {
 		let voiceMembers = null;
-		if (g_erisGuildChannel.voiceMembers) {
+		if(g_erisGuildChannel.voiceMembers) {
 			const Collection = require("./Collection");
 			const Member = require("./Member");
 
 			voiceMembers = new Collection(Member);
-			g_erisGuildChannel.members.forEach((erisVoiceMember, index, map) => {
+			g_erisGuildChannel.members.forEach(erisVoiceMember => {
 				voiceMembers.add(new Member(erisVoiceMember));
 			});
 		}

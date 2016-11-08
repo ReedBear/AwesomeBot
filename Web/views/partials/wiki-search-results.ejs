@@ -1,18 +1,19 @@
-<% if(searchResults.length>0) { %>
+<% if(data.searchResults.length>0) { %>
 	<div class="content">
-		<% for(var i=0; i<searchResults.length; i++) { %>
+		<% for(var i=0; i<data.searchResults.length; i++) { %>
 			<div class="box">
-				<a class="title is-3" href="/wiki/<%= searchResults[i].title %>">
-					<%= searchResults[i].title %>
+				<a class="title is-3" href="/wiki/<%= data.searchResults[i].title %>">
+					<%= data.searchResults[i].title %>
 				</a>
 				<br><br>
 				<div class="content">
-					<%- searchResults[i].matchText %>
+					<%- data.searchResults[i].matchText %>
 				</div>
 			</div>
 		<% } %>
 	</div>
 <% } else { %>
 	<% var resetUrl = "/wiki/Home"; %>
+	<% var activeSearchQuery = data.activeSearchQuery; %>
 	<% include ../partials/no-results %>
 <% } %>

@@ -1,7 +1,7 @@
 const memes = require("./../../Configuration/memes.json");
 const base64 = require("node-base64-image");
 
-module.exports = (bot, db, config, winston, userDocument, serverDocument, channelDocument, memberDocument, msg, suffix, commandData) => {
+module.exports = (bot, db, config, winston, userDocument, serverDocument, channelDocument, memberDocument, msg, suffix) => {
 	this.getRandomMeme = () => {
 		return memes[Math.floor(Math.random() * memes.length)];
 	};
@@ -21,9 +21,9 @@ module.exports = (bot, db, config, winston, userDocument, serverDocument, channe
 		topText = encodeURI(topText);
 		botText = encodeURI(botText);
 
-		var uri = "http://apimeme.com/meme?meme=" + meme + "&top=" + topText + "&bottom=" + botText;
+		const uri = `http://apimeme.com/meme?meme=${meme}&top=${topText}&bottom=${botText}`;
 		base64.encode(uri, { filename: "meme.jpg" }, (error, image) => {
-			if (!error) {
+			if(!error) {
 				msg.channel.createMessage("", {
 					file: image,
 					name: "meme.jpg"
@@ -35,56 +35,56 @@ module.exports = (bot, db, config, winston, userDocument, serverDocument, channe
 		});
 	};
 
-	this.search = (query) => {
+	this.search = query => {
 		query = query || "";
 		query = query.trim().toLowerCase();
 
-		if (query.length == 0) {
+		if(query.length == 0) {
 			msg.channel.createMessage("No keywords given for search");
 		}
 
-		let matches = [];
-		let max_results = serverDocument.config.command_fetch_properties.default_count;
-		let keywords = query.split(/\s+/), keywords_length = keywords.length;
+		const matches = [];
+		const max_results = serverDocument.config.command_fetch_properties.default_count;
+		const keywords = query.split(/\s+/), keywords_length = keywords.length;
 
-		for (let m = 0, len = memes.length; m < len; m++) {
-			let meme = memes[m].toLowerCase();
+		for(let m = 0, len = memes.length; m < len; m++) {
+			const meme = memes[m].toLowerCase();
 			let keywords_matched = 0;
 
-			for (let k = 0; k < keywords_length; k++) {
-				if (!~meme.indexOf(keywords[k])) {
+			for(let k = 0; k < keywords_length; k++) {
+				if(!~meme.indexOf(keywords[k])) {
 					break;
 				}
 				keywords_matched++;
 			}
 
-			if (keywords_matched == keywords_length) {
+			if(keywords_matched == keywords_length) {
 				matches.push(memes[m]);
 			}
 
-			if (matches.length >= max_results) {
+			if(matches.length >= max_results) {
 				break;
 			}
 		}
 
 		// has results?
-		if (matches.length) {
-			msg.channel.createMessage("Top " + matches.length + " matches:\n\t" + matches.join("\n\t"));
+		if(matches.length) {
+			msg.channel.createMessage(`Top ${matches.length} matches:\n\t${matches.join("\n\t")}`);
 		}
 		else {
 			msg.channel.createMessage("No matches found. Try a different search.");
 		}
 	};
 
-	if (!suffix.length) {
+	if(!suffix.length) {
 		msg.channel.createMessage("Please provide some text to go on the meme picture.");
 		return;
 	}
 
-	let subparams = suffix.split(" ");
-	if (subparams.length) {
-		let subcommand = subparams[0].toLowerCase();
-		switch (subcommand) {
+	const subparams = suffix.split(" ");
+	if(subparams.length) {
+		const subcommand = subparams[0].toLowerCase();
+		switch(subcommand) {
 			case "search":
 				subparams.shift();
 				this.search(subparams.join(" "));
@@ -92,8 +92,8 @@ module.exports = (bot, db, config, winston, userDocument, serverDocument, channe
 		}
 	}
 
-	let params = suffix.split("|");
-	switch (params.length) {
+	const params = suffix.split("|");
+	switch(params.length) {
 		case 1:
 			this.generateCustomMeme(this.getRandomMeme(), params[0]);
 			break;

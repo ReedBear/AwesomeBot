@@ -44,7 +44,6 @@
 	</script>
 </head>
 <body>
-	<% include ../partials/donate %>
 	<section id="header" class="hero is-primary is-fullheight is-bold" style="background: url('/header-image');background-size: cover;">
 		<div class="hero-head">
 			<% include ../partials/header %>
@@ -110,12 +109,12 @@
 		</div>
 	</section>
 
-	<section id="about" class="hero is-medium">
+	<section id="about" class="hero is-light is-medium">
 		<div class="hero-body">
 			<div class="container">
 				<nav class="columns">
 					<div class="column has-text-centered">
-						<span class="icon is-large" style="margin-right: -15px;">
+						<span class="icon is-large">
 							<i class="fa fa-star"></i>
 						</span>
 						<p class="title is-4"><strong>Awesome</strong> features</p>
@@ -137,20 +136,64 @@
 		</div>
 	</section>
 
-	<section id="media" class="hero is-large is-light is-bold">
+	<section id="media" class="hero is-medium">
 		<div class="hero-body">
 			<div class="container">
-				<nav class="columns">
-					<div class="column has-text-centered">
-						<img src="/img/media.png">
-					</div>
-					<div class="column has-text-centered">
-						<h2 class="title is-2">
-						GIFs, YouTube, Reddit, and more.
-						</h2>
-						<p>
-							Media commands are what makes AwesomeBot so much fun. Find memes on <strong>Giphy</strong> or create your own. Search for great <strong>videos</strong> on YouTube. Share the latest on a subreddit with your friends. Get the latest from any <strong>RSS feeds</strong>. View all the <strong>XKCD</strong> comics. Discover <strong>Anime</strong> with a powerful, intuitive command. Get <strong>IMDB</strong> information on TV shows and movies. Quickly fetch links to listings on <strong>Google Play</strong> and the <strong>App Store</strong>. AwesomeBot makes sharing content from around the web in chat easier than ever.
-						</p>
+				<nav class="columns is-vcentered">
+					<div class="column is-8 is-offset-2">
+						<nav class="columns is-vcentered is-multiline">
+							<div class="column is-one-third has-text-centered">
+								<div class="notification is-danger">
+									<span class="icon is-large">
+										<i class="fa fa-youtube-play"></i>
+									</span>
+									<p class="title is-4"><strong>YouTube</strong><br>videos</p>
+								</div>
+							</div>
+							<div class="column is-one-third has-text-centered">
+								<div class="notification is-warning">
+									<span class="icon is-large">
+										<i class="fa fa-google"></i>
+									</span>
+									<p class="title is-4">Web results<br>from <strong>Google</strong></p>
+								</div>
+							</div>
+							<div class="column is-one-third has-text-centered">
+								<div class="notification is-black">
+									<span class="icon is-large">
+										<i class="fa fa-reddit-alien"></i>
+									</span>
+									<p class="title is-4"><strong>Reddit</strong><br>browser</p>
+								</div>
+							</div>
+							<div class="column is-12">
+								<img src="/img/media.png" style="border-radius: 3px;">
+							</div>
+							<div class="column is-one-third has-text-centered">
+								<div class="notification is-primary">
+									<span class="icon is-large">
+										<i class="fa fa-rss"></i>
+									</span>
+									<p class="title is-4">Custom<br><strong>RSS</strong> feeds</p>
+								</div>
+							</div>
+							<div class="column is-one-third has-text-centered">
+								<div class="notification is-success">
+									<span class="icon is-large">
+										<i class="fa fa-mouse-pointer"></i>
+									</span>
+									<p class="title is-4">Fun <strong>meme</strong><br>generator</p>
+								</div>
+							</div>
+							<div class="column is-one-third has-text-centered">
+								<div class="notification is-info">
+									<span class="icon is-large">
+										<i class="fa fa-picture-o"></i>
+									</span>
+									<p class="title is-4"><strong>GIF</strong> + <strong>Image</strong><br>search</p>
+								</div>
+							</div>
+						</nav>
 					</div>
 				</nav>
 			</div>
@@ -178,32 +221,111 @@
 		</div>
 	</section>
 
-	<section id="features" class="hero is-large is-dark is-bold">
+	<section id="features" class="hero is-medium is-dark is-bold">
 		<div class="hero-body">
 			<div class="container">
-				<nav class="columns">
-					<div class="column has-text-centered">
-						<h2 class="title is-2">
-							Increase <strong>activity</strong> on <strong>your</strong> server!
-						</h2>
-						<p>
-							AwesomeBot comes with a robust stats system right out-of-the-box. Members are rewarded for engaging in conversation on Discord with global AwesomePoints and are given ranks that can be assigned to Discord roles. Awesomebot even keeps track of the most popular games that people on your server play and allows you to create channels with players of a game.
-						</p>
-						<br><br>
-						<h2 class="title is-2">
-							Tons of <strong>in-chat tools</strong>.
-						</h2>
-						<p>
-							Easy-to-use polls and giveaways reduce the need to leave Discord. Want to play a trivia game? That's included in AwesomeBot. Counting down to a game release? Start a countdown with AwesomeBot. Need a simple to-do list for a task-oriented server? AwesomeBot has one built-in. There are so many simple conveniences in AwesomeBot that make it feel like you can do <i>anything</i> without ever leaving Discord.
-						</p>
-						<br>
-						<p>
-							There are plenty of simple utility and moderation commands included as well. Set reminders in both public and private chat. Check the weather and time in your area. Convert units, check how much time is left until next year, look up words, read full Wikipedia articles. There's too much to fully list here. Mods can kick, ban, and mute members as well as archive or clean up the chat. We've also included a unique strikes system that allows mods and admins to keep track of members who misbehave without having to use another tool. It's integrated with AwesomePoints and makes it easy to tell when it's time for someone to get the ban hammer.
+				<div class="tile is-ancestor">
+					<div class="tile is-vertical is-8">
+						<div class="tile is-parent">
+							<div class="tile is-child">
+								<p class="title is-2">Increase <strong>activity</strong> on <strong>your</strong> server</p>
+								<p class="subtitle is-4">AwesomeBot provides tons of <strong>in-chat tools</strong>.</p>
+								<p>
+									Whether your server has 5 members or 5000, you can rely on AwesomeBot to make it enjoyable while doing a great job of moderating annoying people. We've included plenty of powerful, customizable commands as well as a robust extension system, making AwesomeBot the only bot you'll need for an awesome Discord experience.
+								</p>
+							</div>
+						</div>
+						<div class="tile">
+							<div class="tile is-parent is-vertical">
+								<div class="tile is-child has-text-centered">
+									<span class="icon is-large">
+										<i class="fa fa-comments"></i>
+									</span>
+									<p class="title is-4">In-chat <strong>polls</strong></p>
+								</div>
+								<div class="tile is-child has-text-centered">
+									<span class="icon is-large">
+										<i class="fa fa-star"></i>
+									</span>
+									<p class="title is-4"><strong>AwesomePoints</strong></p>
+								</div>
+								<div class="tile is-child has-text-centered">
+									<span class="icon is-large">
+										<i class="fa fa-gavel"></i>
+									</span>
+									<p class="title is-4"><strong>Kick</strong> + <strong>ban</strong></p>
+								</div>
+							</div>
+							<div class="tile is-parent is-vertical">
+								<div class="tile is-child has-text-centered">
+									<span class="icon is-large">
+										<i class="fa fa-question"></i>
+									</span>
+									<p class="title is-4"><strong>Trivia</strong> game</p>
+								</div>
+								<div class="tile is-child has-text-centered">
+									<span class="icon is-large">
+										<i class="fa fa-wikipedia-w"></i>
+									</span>
+									<p class="title is-4"><strong>Wikipedia</strong></p>
+								</div>
+								<div class="tile is-child has-text-centered">
+									<span class="icon is-large">
+										<i class="fa fa-table"></i>
+									</span>
+									<p class="title is-4"><strong>ModLog</strong></p>
+								</div>
+							</div>
+							<div class="tile is-parent is-vertical">
+								<div class="tile is-child has-text-centered">
+									<span class="icon is-large">
+										<i class="fa fa-key"></i>
+									</span>
+									<p class="title is-4"><strong>Giveaways</strong></p>
+								</div>
+								<div class="tile is-child has-text-centered">
+									<span class="icon is-large">
+										<i class="fa fa-book"></i>
+									</span>
+									<p class="title is-4"><strong>Urban</strong> Dictionary</p>
+								</div>
+								<div class="tile is-child has-text-centered">
+									<span class="icon is-large">
+										<i class="fa fa-check-square-o"></i>
+									</span>
+									<p class="title is-4"><strong>To-do</strong> list</p>
+								</div>
+							</div>
+							<div class="tile is-parent is-vertical">
+								<div class="tile is-child has-text-centered">
+									<span class="icon is-large">
+										<i class="fa fa-trophy"></i>
+									</span>
+									<p class="title is-4">Member <strong>ranks</strong></p>
+								</div>
+								<div class="tile is-child has-text-centered">
+									<span class="icon is-large">
+										<i class="fa fa-sun-o"></i>
+									</span>
+									<p class="title is-4"><strong>Weather</strong> + <strong>Time</strong></p>
+								</div>
+								<div class="tile is-child has-text-centered">
+									<span class="icon is-large">
+										<i class="fa fa-sort"></i>
+									</span>
+									<p class="title is-4"><strong>Convert</strong> units</p>
+								</div>
+							</div>
+						</div>
 					</div>
-					<div class="column has-text-centered">
-						<img src="/img/demo-activity.gif" style="border-radius: 3px;">
+					<div class="tile is-parent">
+						<div class="tile is-child">
+							<center>
+								<img class="image" src="/img/demo-activity.gif" style="border-radius: 3px;">
+							</center>
+						</div>
 					</div>
-				</nav>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -351,7 +473,7 @@
 							<div class="card" style="text-align: left;">
 								<div class="card-image">
 									<figure class="image is-square">
-										<img src="/img/tinytaco.jpg" alt="">
+										<img src="/img/tinytaco.png" alt="">
 									</figure>
 								</div>
 								<div class="card-content">

@@ -29,10 +29,9 @@ module.exports = class Guild {
 		this.unavailable = erisGuild.unavailable;
 		this.verificationLevel = erisGuild.verificationLevel;
 
-
 		this.banMember = (userID, deleteMessageDays, cb) => {
 			erisGuild.banMember(userID, deleteMessageDays).then(() => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});
@@ -40,7 +39,7 @@ module.exports = class Guild {
 
 		this.createChannel = (name, type, cb) => {
 			erisGuild.createChannel(name, type).then(erisGuildChannel => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					const GuildChannel = require("./GuildChannel");
 					cb(new GuildChannel(erisGuildChannel));
 				}
@@ -49,24 +48,24 @@ module.exports = class Guild {
 
 		this.createEmoji = (options, cb) => {
 			erisGuild.createEmoji(options).then(object => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb(object);
 				}
 			});
 		};
 
-		this.createRole = (cb) => {
+		this.createRole = cb => {
 			erisGuild.createRole().then(erisRole => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					const Role = require("./Role");
 					cb(new Role(erisRole));
 				}
 			});
 		};
 
-		this.delete = (cb) => {
-			erisGuild.delete().then(() => {
-				if (Util.isFunction(cb)) {
+		this["delete"] = cb => {
+			erisGuild["delete"]().then(() => {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});
@@ -74,7 +73,7 @@ module.exports = class Guild {
 
 		this.deleteEmoji = (emojiID, cb) => {
 			erisGuild.deleteEmoji(emojiID).then(() => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});
@@ -82,7 +81,7 @@ module.exports = class Guild {
 
 		this.deleteRole = (roleID, cb) => {
 			erisGuild.deleteRole(roleID).then(() => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});
@@ -90,7 +89,7 @@ module.exports = class Guild {
 
 		this.edit = (options, cb) => {
 			erisGuild.edit(options).then(erisGuild => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					const Guild = require("./Guild");
 					cb(new Guild(erisGuild));
 				}
@@ -99,7 +98,7 @@ module.exports = class Guild {
 
 		this.editEmoji = (emojiID, options, cb) => {
 			erisGuild.editEmoji(emojiID, options).then(object => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb(object);
 				}
 			});
@@ -107,7 +106,7 @@ module.exports = class Guild {
 
 		this.editMember = (userID, options, cb) => {
 			erisGuild.editMember(userID, options).then(() => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});
@@ -115,7 +114,7 @@ module.exports = class Guild {
 
 		this.editNickname = (nick, cb) => {
 			erisGuild.editNickname(nick).then(() => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});
@@ -123,36 +122,36 @@ module.exports = class Guild {
 
 		this.editRole = (roleID, options, cb) => {
 			erisGuild.editRole(roleID, options).then(erisRole => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					const Role = require("./Role");
 					cb(new Role(erisRole));
 				}
 			});
 		};
 
-		this.getBans = (cb) => {
+		this.getBans = cb => {
 			erisGuild.getBans().then(erisUsers => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					const User = require("./User");
-					let Users = erisUsers.map(erisUser => new User(erisUser));
+					const Users = erisUsers.map(erisUser => new User(erisUser));
 					cb(Users);
 				}
 			});
 		};
 
-		this.getChannels = (cb) => {
+		this.getChannels = cb => {
 			erisGuild.getChannels().then(erisGuildChannels => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					const GuildChannel = require("./GuildChannel");
-					let GuildChannels = erisGuildChannels.map(erisGuildChannel => new GuildChannel(erisGuildChannel));
+					const GuildChannels = erisGuildChannels.map(erisGuildChannel => new GuildChannel(erisGuildChannel));
 					cb(GuildChannels);
 				}
 			});
 		};
 
-		this.getEmbed = (cb) => {
+		this.getEmbed = cb => {
 			erisGuild.getEmbed().then(object => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb(object);
 				}
 			});
@@ -160,25 +159,25 @@ module.exports = class Guild {
 
 		this.getEmoji = (emojiID, cb) => {
 			erisGuild.getEmoji(emojiID).then(object => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb(object);
 				}
 			});
 		};
 
-		this.getEmojis = (cb) => {
+		this.getEmojis = cb => {
 			erisGuild.getEmojis().then(objects => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb(objects);
 				}
 			});
 		};
 
-		this.getInvites = (cb) => {
+		this.getInvites = cb => {
 			erisGuild.getInvites().then(erisInvites => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					const Invite = require("./Invite");
-					let Invites = erisInvites.map(erisInvite => new Invite(erisInvite));
+					const Invites = erisInvites.map(erisInvite => new Invite(erisInvite));
 					cb(Invites);
 				}
 			});
@@ -186,7 +185,7 @@ module.exports = class Guild {
 
 		this.getMember = (memberID, cb) => {
 			erisGuild.getMember(memberID).then(erisMember => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					const Member = require("./Member");
 					cb(new Member(erisMember));
 				}
@@ -195,9 +194,9 @@ module.exports = class Guild {
 
 		this.getMembers = (limit, after, cb) => {
 			erisGuild.getMembers(limit, after).then(erisMembers => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					const Member = require("./Member");
-					let Members = erisMembers.map(erisMember => new Member(erisMember));
+					const Members = erisMembers.map(erisMember => new Member(erisMember));
 					cb(Members);
 				}
 			});
@@ -205,33 +204,33 @@ module.exports = class Guild {
 
 		this.getPruneCount = (days, cb) => {
 			erisGuild.getPruneCount(days).then(num => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb(num);
 				}
 			});
 		};
 
-		this.getRoles = (cb) => {
+		this.getRoles = cb => {
 			erisGuild.getRoles().then(erisRoles => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					const Role = require("./Role");
-					let Roles = erisRoles.map(erisRole => new Role(erisRole));
+					const Roles = erisRoles.map(erisRole => new Role(erisRole));
 					cb(Roles);
 				}
 			});
 		};
 
-		this.getVoiceRegions = (cb) => {
+		this.getVoiceRegions = cb => {
 			erisGuild.getVoiceRegions().then(objects => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb(objects);
 				}
 			});
 		};
 
-		this.getWebhooks = (cb) => {
+		this.getWebhooks = cb => {
 			erisGuild.getWebhooks().then(objects => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb(objects);
 				}
 			});
@@ -239,15 +238,15 @@ module.exports = class Guild {
 
 		this.kickMember = (userID, cb) => {
 			erisGuild.kickMember(userID).then(() => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});
 		};
 
-		this.leave = (cb) => {
+		this.leave = cb => {
 			erisGuild.leave().then(() => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});
@@ -255,7 +254,7 @@ module.exports = class Guild {
 
 		this.pruneMembers = (days, cb) => {
 			erisGuild.pruneMembers(days).then(numPruned => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb(numPruned);
 				}
 			});
@@ -263,7 +262,7 @@ module.exports = class Guild {
 
 		this.unbanMember = (userID, cb) => {
 			erisGuild.unbanMember(userID).then(() => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});
@@ -274,8 +273,8 @@ module.exports = class Guild {
 		const Collection = require("./Collection");
 		const GuildChannel = require("./GuildChannel");
 
-		let channels = new Collection(GuildChannel);
-		g_erisGuild.channels.forEach((erisGuildChannel, index, map) => {
+		const channels = new Collection(GuildChannel);
+		g_erisGuild.channels.forEach(erisGuildChannel => {
 			channels.add(new GuildChannel(erisGuildChannel));
 		});
 		return channels;
@@ -290,8 +289,8 @@ module.exports = class Guild {
 		const Collection = require("./Collection");
 		const Member = require("./Member");
 
-		let members = new Collection(Member);
-		g_erisGuild.members.forEach((erisMember, index, map) => {
+		const members = new Collection(Member);
+		g_erisGuild.members.forEach(erisMember => {
 			members.add(new Member(erisMember));
 		});
 		return members;
@@ -301,8 +300,8 @@ module.exports = class Guild {
 		const Collection = require("./Collection");
 		const Role = require("./Role");
 
-		let roles = new Collection(Role);
-		g_erisGuild.roles.forEach((erisRole, index, map) => {
+		const roles = new Collection(Role);
+		g_erisGuild.roles.forEach(erisRole => {
 			roles.add(new Role(erisRole));
 		});
 		return roles;

@@ -4,13 +4,13 @@ module.exports = (bot, db, config, winston, ch) => {
 		db.servers.findOne({_id: ch.guild.id}, (err, serverDocument) => {
 			if(!err && serverDocument) {
 				// Remove channel from config (replace with default channel) if necessary
-				var updated = false;
-				var channelDocument = serverDocument.channels.id(ch.id);
+				let updated = false;
+				const channelDocument = serverDocument.channels.id(ch.id);
 				if(channelDocument) {
 					updated = true;
 					channelDocument.remove();
 				}
-				for(var command in serverDocument.toObject().config.commands) {
+				for(const command in serverDocument.toObject().config.commands) {
 					if(serverDocument.config.commands[command] && serverDocument.config.commands[command].disabled_channel_ids && serverDocument.config.commands[command].disabled_channel_ids.indexOf(ch.id)>-1) {
 						updated = true;
 						serverDocument.config.commands[command].disabled_channel_ids.splice(serverDocument.config.commands[command].disabled_channel_ids.indexOf(ch.id), 1);
@@ -20,13 +20,13 @@ module.exports = (bot, db, config, winston, ch) => {
 					updated = true;
 					serverDocument.config.message_of_the_day.channel_id = ch.guild.defaultChannel.id;
 				}
-				for(var filter in serverDocument.toObject().config.moderation.filters) {
+				for(const filter in serverDocument.toObject().config.moderation.filters) {
 					if(serverDocument.config.moderation.filters[filter].enabled_channel_ids && serverDocument.config.moderation.filters[filter].enabled_channel_ids.indexOf(ch.id)>-1) {
 						updated = true;
 						serverDocument.config.moderation.filters[filter].enabled_channel_ids.splice(serverDocument.config.moderation.filters[filter].enabled_channel_ids.indexOf(ch.id), 1);
 					}
 				}
-				for(var status_message in serverDocument.toObject().config.moderation.status_messages) {
+				for(const status_message in serverDocument.toObject().config.moderation.status_messages) {
 					if(serverDocument.config.moderation.status_messages[status_message].enabled_channel_ids && serverDocument.config.moderation.status_messages[status_message].enabled_channel_ids.indexOf(ch.id)>-1) {
 						updated = true;
 						serverDocument.config.moderation.status_messages[status_message].enabled_channel_ids.splice(serverDocument.config.moderation.status_messages[status_message].enabled_channel_ids.indexOf(ch.id), 1);
@@ -38,7 +38,7 @@ module.exports = (bot, db, config, winston, ch) => {
 						serverDocument.config.moderation.status_messages[status_message].channel_id = ch.guild.defaultChannel.id;
 					}
 				}
-				for(var i=0; i<serverDocument.config.rss_feeds.length; i++) {
+				for(let i=0; i<serverDocument.config.rss_feeds.length; i++) {
 					if(serverDocument.config.rss_feeds[i].streaming.isEnabled && serverDocument.config.rss_feeds[i].streaming.enabled_channel_ids.indexOf(ch.id)>-1) {
 						updated = true;
 						serverDocument.config.rss_feeds[i].streaming.enabled_channel_ids.splice(serverDocument.config.rss_feeds[i].streaming.enabled_channel_ids.indexOf(ch.id), 1);
@@ -47,7 +47,7 @@ module.exports = (bot, db, config, winston, ch) => {
 						}
 					}
 				}
-				for(var i=0; i<serverDocument.config.translated_messages.length; i++) {
+				for(let i=0; i<serverDocument.config.translated_messages.length; i++) {
 					if(serverDocument.config.translated_messages[i].enabled_channel_ids.indexOf(ch.id)>-1) {
 						updated = true;
 						serverDocument.config.translated_messages[i].enabled_channel_ids.splice(serverDocument.config.translated_messages[i].enabled_channel_ids.indexOf(ch.id), 1);

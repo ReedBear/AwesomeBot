@@ -1,5 +1,5 @@
 // Import and setup files and modules
-var eventHandlers = {
+const eventHandlers = {
 	ready: require("./Events/ready.js"),
 	shardReady: require("./Events/shardReady.js"),
 	guildCreate: require("./Events/guildCreate.js"),
@@ -24,7 +24,7 @@ var eventHandlers = {
 const database = require("./Database/Driver.js");
 
 const auth = require("./Configuration/auth.json");
-var config = require("./Configuration/config.json");
+const config = require("./Configuration/config.json");
 const winston = require("winston");
 const domain = require("domain");
 
@@ -34,15 +34,14 @@ winston.add(winston.transports.File, {
 });
 
 // Connect to and initialize database
-var db;
 database.initialize(config.db_url, err => {
 	if(err) {
 		winston.error("Failed to connect to database", err);
 	} else {
-		db = database.get();
+		const db = database.get();
 
 		// Get bot client from platform and login
-		var bot = require("./Platform/Platform.js")(db, auth, config);
+		const bot = require("./Platform/Platform.js")(db, auth, config);
 		bot.connect().then(() => {
 			winston.info("Started bot application");
 		});
@@ -140,7 +139,7 @@ database.initialize(config.db_url, err => {
 			if(bot.isReady) {
 				const guildMemberUpdateDomain = domain.create();
 				guildMemberUpdateDomain.run(() => {
-						eventHandlers.guildMemberUpdate(bot, db, config, winston, svr, member, oldmemberdata);
+					eventHandlers.guildMemberUpdate(bot, db, config, winston, svr, member, oldmemberdata);
 				});
 				guildMemberUpdateDomain.on("error", err => {
 					winston.error(err);
@@ -172,7 +171,7 @@ database.initialize(config.db_url, err => {
 					winston.error(err);
 				});
 			}
-		})
+		});
 
 		// User unbanned from server
 		bot.on("guildBanRemove", (svr, usr) => {
@@ -227,11 +226,11 @@ database.initialize(config.db_url, err => {
 		});
 
 		// User status changed (afk, new game, etc.)
-		bot.on("presenceUpdate", (mmeber, oldpresence) => {
+		bot.on("presenceUpdate", (member, oldpresence) => {
 			if(bot.isReady) {
 				const presenceUpdateDomain = domain.create();
 				presenceUpdateDomain.run(() => {
-					eventHandlers.presenceUpdate(bot, db, config, winston, usr, oldpresence);
+					eventHandlers.presenceUpdate(bot, db, config, winston, member, oldpresence);
 				});
 				presenceUpdateDomain.on("error", err => {
 					winston.error(err);

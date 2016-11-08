@@ -50,6 +50,11 @@
 			<% } else { %>
 				<a href="/dashboard/global-options/maintainers?svrid=maintainer">Maintainers</a>
 			<% } %>
+			<% if(currentPage=="/dashboard/global-options/wiki-contributors") { %>
+				<a class="is-active" href="#">Wiki Contributors</a>
+			<% } else { %>
+				<a href="/dashboard/global-options/wiki-contributors?svrid=maintainer">Wiki Contributors</a>
+			<% } %>
 		</li>
 	</ul>
 </aside>

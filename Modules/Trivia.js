@@ -7,11 +7,11 @@ module.exports = {
 			ch.createMessage("There is already an ongoing trivia game in this channel, no need to start one 🏏");
 		} else {
 			if(set) {
-				var triviaSetDocument = serverDocument.config.trivia_sets.id(set);
+				const triviaSetDocument = serverDocument.config.trivia_sets.id(set);
 				if(triviaSetDocument) {
 					channelDocument.trivia.set_id = set;
 				} else {
-					ch.createMessage("Trivia set `" + set + "` not found. You can add it in the admin console, though!");
+					ch.createMessage(`Trivia set \`${set}\` not found. You can add it in the admin console, though!`);
 					return;
 				}
 			} else {
@@ -21,29 +21,23 @@ module.exports = {
 			channelDocument.trivia.past_questions = [];
 			channelDocument.trivia.score = 0;
 			channelDocument.trivia.responders = [];
-			ch.createMessage("Trivia game started by " + usr.mention + " " + (set ? ("(set: " + set + ") ") : "") + "🎮").then(() => {
+			ch.createMessage(`Trivia game started by ${usr.mention} ${set ? (`(set: ${set}) `) : ""}🎮`).then(() => {
 				module.exports.next(bot, db, svr, serverDocument, ch, channelDocument);
 			});
 		}
 	},
 	next: (bot, db, svr, serverDocument, ch, channelDocument) => {
 		if(channelDocument.trivia.isOngoing) {
-			if(channelDocument.trivia.current_question.answer) {
-				ch.createMessage("The answer was `" + channelDocument.trivia.current_question.answer + "` 😛").then(doNext);
-			} else {
-				doNext();
-			}
-
-			function doNext() { 
-				var set = defaultTriviaSet;
+			const doNext = () => {
+				let set = defaultTriviaSet;
 				if(channelDocument.trivia.set_id!="default") {
 					set = serverDocument.config.trivia_sets.id(set);
 				}
 				if(set) {
-					var question = module.exports.question(set, channelDocument);
+					const question = module.exports.question(set, channelDocument);
 					if(question) {
 						ch.createMessage({
-							content: "**" + question.question + "**\n❓\tCategory: " + question.category + "\t`" + bot.getCommandPrefix(svr, serverDocument) + "trivia <answer>`",
+							content: `**${question.question}**\n❓\tCategory: ${question.category}\t\`${bot.getCommandPrefix(svr, serverDocument)}trivia <answer>\``,
 							disableEveryone: true
 						});
 					} else {
@@ -52,12 +46,18 @@ module.exports = {
 				} else {
 					module.exports.end(bot, svr, serverDocument, ch, channelDocument);
 				}
-				serverDocument.save(err => {});
+				serverDocument.save(() => {});
+			};
+
+			if(channelDocument.trivia.current_question.answer) {
+				ch.createMessage(`The answer was \`${channelDocument.trivia.current_question.answer}\` 😛`).then(doNext);
+			} else {
+				doNext();
 			}
 		}
 	},
 	question: (set, channelDocument) => {
-		var question;
+		let question;
 		while((!question || channelDocument.trivia.past_questions.includes(question.question)) && channelDocument.trivia.past_questions.length<set.length) {
 			question = set.random();
 		}
@@ -71,7 +71,7 @@ module.exports = {
 	answer: (bot, db, svr, serverDocument, usr, ch, channelDocument, response) =>{
 		if(channelDocument.trivia.isOngoing) {
 			channelDocument.trivia.attempts++;
-			var triviaResponderDocument = channelDocument.trivia.responders.id(usr.id);
+			let triviaResponderDocument = channelDocument.trivia.responders.id(usr.id);
 			if(!triviaResponderDocument) {
 				channelDocument.trivia.responders.push({_id: usr.id});
 				triviaResponderDocument = channelDocument.trivia.responders.id(usr.id);
@@ -84,47 +84,47 @@ module.exports = {
 						db.users.findOrCreate({_id: usr.id}, (err, userDocument) => {
 							if(!err && userDocument) {
 								userDocument.points += 5;
-								userDocument.save(err => {});
+								userDocument.save(() => {});
 							}
 						});
 					}
 				}
-				ch.createMessage(usr.mention + " got it right! 🎉 The answer is `" + channelDocument.trivia.current_question.answer + "`.").then(() => {
+				ch.createMessage(`${usr.mention} got it right! 🎉 The answer is \`${channelDocument.trivia.current_question.answer}\`.`).then(() => {
 					channelDocument.trivia.current_question.answer = null;
 					module.exports.next(bot, db, svr, serverDocument, ch, channelDocument);
 				});
 			} else {
-				ch.createMessage(usr.mention + " Nope. 🕸");
+				ch.createMessage(`${usr.mention} Nope. 🕸`);
 			}
 		}
 	},
 	check: (correct, response) => {
-		function compare(answer) {
+		const compare = answer => {
 			answer = answer.toLowerCase().trim();
-            if(answer.length<5 || !isNaN(answer.trim())) {
-                return response.toLowerCase()==answer;
-            }
-            return levenshtein.get(response.toLowerCase(), answer)<3;
-        }
+			if(answer.length<5 || !isNaN(answer.trim())) {
+				return response.toLowerCase()==answer;
+			}
+			return levenshtein.get(response.toLowerCase(), answer)<3;
+		};
 
-        var answers = correct.split("|");
-        for(var i=0; i<answers.length; i++) {
-            if(answers[i] && compare(answers[i])) {
-                return true;
-            }
-        }
-        return false;
+		const answers = correct.split("|");
+		for(let i=0; i<answers.length; i++) {
+			if(answers[i] && compare(answers[i])) {
+				return true;
+			}
+		}
+		return false;
 	},
 	end: (bot, svr, serverDocument, ch, channelDocument) => {
 		if(channelDocument.trivia.isOngoing) {
 			channelDocument.trivia.isOngoing = false;
 			channelDocument.trivia.current_question.answer = null;
-			var info = "Thanks for playing! 🏆 Y'all got a score of **" + channelDocument.trivia.score + "** out of " + channelDocument.trivia.past_questions.length + ".";
+			let info = `Thanks for playing! 🏆 Y'all got a score of **${channelDocument.trivia.score}** out of ${channelDocument.trivia.past_questions.length}.`;
 			if(channelDocument.trivia.responders.length>0) {
-				var topResponders = channelDocument.trivia.responders.sort((a, b) => {
+				const topResponders = channelDocument.trivia.responders.sort((a, b) => {
 					return b.score - a.score;
 				});
-				var member;
+				let member;
 				while(!member && topResponders.length>0) {
 					member = svr.members.get(topResponders[0]._id);
 					if(!member) {
@@ -132,7 +132,7 @@ module.exports = {
 					}
 				}
 				if(member && topResponders[0].score) {
-					info += " @" + bot.getName(svr, serverDocument, member) + " correctly answered the most questions ⭐️";
+					info += ` @${bot.getName(svr, serverDocument, member)} correctly answered the most questions ⭐️`;
 				}
 			}
 			ch.createMessage(info);

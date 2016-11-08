@@ -2,21 +2,21 @@ const moment = require("moment");
 
 module.exports = (bot, db, config, winston, userDocument, serverDocument, channelDocument, memberDocument, msg, suffix, commandData) => {
 	if(suffix) {
-		var role = msg.guild.roles.find(a => {
+		const role = msg.guild.roles.find(a => {
 			return a.name==suffix;
 		});
 		if(role) {
-			var color = role.color.toString(16);
-			var memberCount = msg.guild.members.filter(member => {
+			const color = role.color.toString(16);
+			const memberCount = msg.guild.members.filter(member => {
 				return member.roles.includes(role.id);
 			}).length;
-			var info = [
-				"__**" + role.name + "**__",
-				"🆔 " + role.id,
-				"🎨 Color: #" + "000000".substring(0, 6 - color.length) + color.toUpperCase(),
-				"🗓 Role created " + moment(role.createdAt).fromNow(),
-				"👤 " + memberCount + " member" + (memberCount==1 ? " has" : "s have") + " this role",
-				"📶 Role #" + (++role.position)
+			const info = [
+				`__**${role.name}**__`,
+				`🆔 ${role.id}`,
+				`🎨 Color: #${"000000".substring(0, 6 - color.length)}${color.toUpperCase()}`,
+				`🗓 Role created ${moment(role.createdAt).fromNow()}`,
+				`👤 ${memberCount} member${memberCount==1 ? " has" : "s have"} this role`,
+				`📶 Role #${++role.position}`
 			];
 			if(role.mentionable) {
 				info.push("💟 Mentionable by everyone");
@@ -25,34 +25,34 @@ module.exports = (bot, db, config, winston, userDocument, serverDocument, channe
 				info.push("📌 Hoisted in member list");
 			}
 			if(role.managed) {
-				info.push("🚀 Integrated with a bot or service")
+				info.push("🚀 Integrated with a bot or service");
 			}
-			info.push("💎 Permissions:```" + Object.keys(role.permissions.json).sort().join(", ") + "```");
+			info.push(`💎 Permissions:\`\`\`${Object.keys(role.permissions.json).sort().join(", ")}\`\`\``);
 			msg.channel.createMessage(info.join("\n"));
 		} else {
-			winston.warn("Requested role does not exist so " + commandData.name + " cannot be shown", {svrid: msg.guild.id, chid: msg.channel.id, usrid: msg.author.id});
+			winston.warn(`Requested role does not exist so ${commandData.name} cannot be shown`, {svrid: msg.guild.id, chid: msg.channel.id, usrid: msg.author.id});
 			msg.channel.createMessage({
 				content: "That role doesn't exist 🚽",
 				disableEveryone: true
 			});
 		}
 	} else {
-		var memberArray = Array.from(msg.guild.members);
-		var info = [];
+		const memberArray = Array.from(msg.guild.members);
+		const info = [];
 		Array.from(msg.guild.roles).sort((a, b) => {
 			return b[1].position - a[1].position;
 		}).slice(0, -1).forEach(role => {
-			var name = role[1].name;
+			let name = role[1].name;
 			if(role[1].hoist) {
-				name = "*" + role[1].name + "*";
+				name = `*${role[1].name}*`;
 			}
-			var members = memberArray.filter(member => {
+			const members = memberArray.filter(member => {
 				return member[1].roles.includes(role[1].id);
 			}).map(member => {
-				return "@" + bot.getName(msg.guild, serverDocument, member[1]);
+				return `@${bot.getName(msg.guild, serverDocument, member[1])}`;
 			});
 			if(members.length>0) {
-				info.push("**" + name + "**\n\t" + members.join("\n\t"));
+				info.push(`**${name}**\n\t${members.join("\n\t")}`);
 			}
 		});
 		if(info.length>0) {

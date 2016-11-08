@@ -2,34 +2,34 @@
 module.exports = (bot, db, config, winston, usr, oldusrdata) => {
 	if(usr.id!=bot.user.id && !usr.bot) {
 		// Do this for each server the user is on
-		function doUpdate(svr) {
+		const doUpdate = svr => {
 			db.servers.findOne({_id: svr.id}, (err, serverDocument) => {
 				if(!err && serverDocument) {
 					if(serverDocument.config.moderation.isEnabled) {
-						var member = svr.members.get(usr.id);
+						const member = svr.members.get(usr.id);
 
 						// Send member_username_updated_message if necessary
 						if(oldusrdata.username!=usr.username && oldusrdata.username && usr.username && serverDocument.config.moderation.status_messages.member_username_updated_message.isEnabled) {
-							winston.info("Member '" + oldusrdata.username + "' changed username to '" + usr.username + "'", {svrid: svr.id, usrid: usr.id});
-							var ch = svr.channels.get(serverDocument.config.moderation.status_messages.member_username_updated_message.channel_id);
+							winston.info(`Member '${oldusrdata.username}' changed username to '${usr.username}'`, {svrid: svr.id, usrid: usr.id});
+							const ch = svr.channels.get(serverDocument.config.moderation.status_messages.member_username_updated_message.channel_id);
 							if(ch) {
-								var channelDocument = serverDocument.channels.id(ch.id);
+								const channelDocument = serverDocument.channels.id(ch.id);
 								if(!channelDocument || channelDocument.bot_enabled) {
-									ch.createMessage("**@" + bot.getName(svr, serverDocument, {
+									ch.createMessage(`**@${bot.getName(svr, serverDocument, {
 										user: oldusrdata
-									}, true) + "** is now **@" + bot.getName(svr, serverDocument, member, true) + "**");
+									}, true)}** is now **@${bot.getName(svr, serverDocument, member, true)}**`);
 								}
 							}
 						}
 
 						// Send member_avatar_updated_message if necessary
 						if(oldusrdata.avatar!=usr.avatar && serverDocument.config.moderation.status_messages.member_avatar_updated_message.isEnabled) {
-							winston.info("Member '" + usr.username + "' changed avatar from '" + oldusrdata.avatar + "' to '" + usr.avatar + "'", {svrid: svr.id, usrid: usr.id});
-							var ch = svr.channels.get(serverDocument.config.moderation.status_messages.member_avatar_updated_message.channel_id);
+							winston.info(`Member '${usr.username}' changed avatar from '${oldusrdata.avatar}' to '${usr.avatar}'`, {svrid: svr.id, usrid: usr.id});
+							const ch = svr.channels.get(serverDocument.config.moderation.status_messages.member_avatar_updated_message.channel_id);
 							if(ch) {
-								var channelDocument = serverDocument.channels.id(ch.id);
+								const channelDocument = serverDocument.channels.id(ch.id);
 								if(!channelDocument || channelDocument.bot_enabled) {
-									ch.createMessage("**@" + bot.getName(svr, serverDocument, member) + "** changed their avatar from " + (oldusrdata.avatar ? ("https://cdn.discordapp.com/avatars/" + usr.id + "/" + oldusrdata.avatar + ".jpg") : "the default one") + " to " + (member.avatarURL || "the default one"));
+									ch.createMessage(`**@${bot.getName(svr, serverDocument, member)}** changed their avatar from ${oldusrdata.avatar ? (`https://cdn.discordapp.com/avatars/${usr.id}/${oldusrdata.avatar}.jpg`) : "the default one"} to ${member.avatarURL || "the default one"}`);
 								}
 							}
 						}
@@ -38,7 +38,7 @@ module.exports = (bot, db, config, winston, usr, oldusrdata) => {
 					winston.error("Failed to find server data for userUpdate", {svrid: svr.id}, err);
 				}
 			});
-		}
+		};
 
 		// Iterate through all mutual servers with user
 		bot.guilds.forEach(svr => {
@@ -60,7 +60,7 @@ module.exports = (bot, db, config, winston, usr, oldusrdata) => {
 						// Save changes to userDocument
 						userDocument.save(err => {
 							if(err) {
-								winston.error("Failed to save user data for past names", {usrid: usr.id}, err)
+								winston.error("Failed to save user data for past names", {usrid: usr.id}, err);
 							}
 						});
 					}

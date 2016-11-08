@@ -17,12 +17,11 @@ module.exports = class Role {
 		this.name = erisRole.name;
 		this.position = erisRole.position;
 
-
 		this.asJSON = erisRole.asJSON;
 
-		this.delete = (cb) => {
-			erisRole.delete().then(() => {
-				if (Util.isFunction(cb)) {
+		this["delete"] = cb => {
+			erisRole["delete"]().then(() => {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});
@@ -30,7 +29,7 @@ module.exports = class Role {
 
 		this.edit = (options, cb) => {
 			erisRole.edit(options).then(erisRole => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					const Role = require("./Role");
 					cb(new Role(erisRole));
 				}
@@ -39,7 +38,7 @@ module.exports = class Role {
 
 		this.editPosition = (position, cb) => {
 			erisRole.editPosition(position).then(() => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});

@@ -1,17 +1,17 @@
 // Set a reminder for a user
 module.exports = (bot, winston, userDocument, reminderDocument) => {
 	setTimeout(() => {
-		var usr = bot.users.get(userDocument._id);
+		const usr = bot.users.get(userDocument._id);
 		if(usr) {
 			usr.getDMChannel().then(ch => {
-				ch.createMessage("**Reminder:** " + reminderDocument.name);
+				ch.createMessage(`**Reminder:** ${reminderDocument.name}`);
 			});
 			reminderDocument.remove();
 			userDocument.save(err => {
 				if(err) {
-					winston.error("Failed to remind user of '" + reminderDocument.name + "'", {usrid: userDocument._id}, err);
+					winston.error(`Failed to remind user of '${reminderDocument.name}'`, {usrid: userDocument._id}, err);
 				} else {
-					winston.info("Reminded user of '" + reminderDocument.name + "'", {usrid: userDocument._id});
+					winston.info(`Reminded user of '${reminderDocument.name}'`, {usrid: userDocument._id});
 				}
 			});
 		}

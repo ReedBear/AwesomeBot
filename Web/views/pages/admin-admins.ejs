@@ -8,8 +8,6 @@
 	<script src="/js/auto-complete.min.js"></script>
 	<script>
 	function newAdmin() {
-		hide_update_modal = true;
-		
 		var newAdminRole = $("#new-admin-role_id");
 		if(newAdminRole.val()) {
 			newAdminRole.removeClass("is-danger");
@@ -25,6 +23,7 @@
 		}
 
 		if(newAdminRole.val() && newAdminLevel.val()) {
+			hide_update_modal = true;
 			$.ajax({
 				type: "POST",
 				url: "<%= currentPage %>?svrid=<%= serverData.id %>",
@@ -41,10 +40,9 @@
 	</script>
 </head>
 <body onload="setUserAutocomplete('<%= serverData.id %>');">
-	<% include ../partials/donate %>
 	<% include ../partials/dashboard-header %>
 	<% include ../partials/dashboard-socket-updates %>
-		
+
 	<section class="section is-white">
 		<div class="container">
 			<div class="columns">
@@ -101,7 +99,7 @@
 														<%= configData.admins[i].level %>
 													</td>
 													<td>
-														<button class="button is-small is-danger" name="admin-<%= i %>-removed" onclick="saveFormState();">
+														<button class="button is-small is-danger" name="admin-<%= i %>-removed" onclick="hide_update_modal = true;">
 															<span>Remove</span>
 															<span class="icon is-small">
 																<i class="fa fa-times"></i>

@@ -47,7 +47,7 @@ $.getJSON("/userlist", function(data) {
 		    			</div>
 			    		<div class="media-content">
 							<h2 class="title">
-								<%= data.userProfile.username %><small class="subtitle is-4">#<%= data.userProfile.discriminator %></small> 
+								<%= data.userProfile.username %><small class="subtitle is-4">#<%= data.userProfile.discriminator %></small>
 								<span class="tag is-medium <%= data.userProfile.statusColor %>"><%= data.userProfile.status.charAt(0).toUpperCase() + data.userProfile.status.slice(1) %></span>
 							</h2>
 							<h5 class="subtitle">
@@ -185,7 +185,7 @@ $.getJSON("/userlist", function(data) {
 				<script>
 				document.getElementById("frame").style.backgroundImage = "";document.getElementById("frame").style.paddingBottom = "";
 				</script>
-				<div class="box">
+				<div class="box hero">
 					<article class="media">
 			    		<div class="media-content">
 							<h2 class="title">

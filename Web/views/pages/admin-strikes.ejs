@@ -9,8 +9,6 @@
 	<script src="/js/form-change-listener.js"></script>
 	<script>
 	function newStrike(member) {
-		hide_update_modal = true;
-		
 		var newStrikeMember = $("#new-strike-member");
 		if(!member) {
 			if(newStrikeMember.val()) {
@@ -45,10 +43,9 @@
 	</script>
 </head>
 <body onload="saveFormState();setUserAutocomplete('<%= serverData.id %>');">
-	<% include ../partials/donate %>
 	<% include ../partials/dashboard-header %>
 	<% include ../partials/dashboard-socket-updates %>
-		
+
 	<section class="section is-white">
 		<div class="container">
 			<div class="columns">

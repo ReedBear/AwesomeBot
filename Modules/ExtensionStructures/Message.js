@@ -26,17 +26,16 @@ class Message {
 			const Collection = require("./Collection");
 			const User = require("./User");
 
-			let mentions = new Collection(User);
-			mentions.forEach((user, index, map) => {
+			const mentions = new Collection(User);
+			mentions.forEach(user => {
 				this.mentions.add(new User(user));
 			});
 			return mentions;
 		};
 
-
-		this.delete = (cb) => {
-			erisMessage.delete().then(() => {
-				if (Util.isFunction(cb)) {
+		this["delete"] = cb => {
+			erisMessage["delete"]().then(() => {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});
@@ -44,24 +43,24 @@ class Message {
 
 		this.edit = (content, disableEveryone, cb) => {
 			erisMessage.edit(content, disableEveryone).then(erisMessage => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					const Message = require("./Message");
 					cb(new Message(erisMessage));
 				}
 			});
 		};
 
-		this.pin = (cb) => {
+		this.pin = cb => {
 			erisMessage.pin().then(() => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});
 		};
 
-		this.unpin = (cb) => {
+		this.unpin = cb => {
 			erisMessage.unpin().then(() => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});
@@ -87,6 +86,6 @@ class Message {
 		const Member = require("./Member");
 		return new Member(g_erisMessage.member);
 	}
-};
+}
 
 module.exports = Message;

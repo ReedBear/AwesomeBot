@@ -25,11 +25,10 @@ module.exports = class Member {
 		this.discriminator = erisMember.discriminator;
 		this.username = erisMember.username;
 
-
 		// functions
 		this.ban = (deleteMessageDays, cb) => {
 			erisMember.ban(deleteMessageDays).then(() => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});
@@ -37,23 +36,23 @@ module.exports = class Member {
 
 		this.edit = (options, cb) => {
 			erisMember.edit(options).then(() => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});
 		};
 
-		this.kick = (cb) => {
+		this.kick = cb => {
 			erisMember.kick().then(() => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});
 		};
 
-		this.unban = (cb) => {
+		this.unban = cb => {
 			erisMember.unban().then(() => {
-				if (Util.isFunction(cb)) {
+				if(Util.isFunction(cb)) {
 					cb();
 				}
 			});

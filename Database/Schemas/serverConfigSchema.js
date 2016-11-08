@@ -1,6 +1,19 @@
 const commands = require("./../../Configuration/commands.json");
 const mongoose = require("mongoose");
 
+// Get command(s) structure for server config schema above
+const getCommands = () => {
+	const commandsStructure = {};
+	for(const command in commands["public"]) {
+		commandsStructure[command] = {
+			isEnabled: {type: Boolean, default: commands["public"][command].defaults.is_enabled},
+			admin_level: {type: Number, default: commands["public"][command].defaults.admin_level, min: 0, max: 4},
+			disabled_channel_ids: [String]
+		};
+	}
+	return commandsStructure;
+};
+
 // Server's configs (commands, admins, etc.)
 module.exports = {
 	admins: [new mongoose.Schema({
@@ -80,15 +93,15 @@ module.exports = {
 		status_messages: {
 			server_name_updated_message: {
 				isEnabled: {type: Boolean, default: false},
-				channel_id: String 
+				channel_id: String
 			},
 			server_icon_updated_message: {
 				isEnabled: {type: Boolean, default: false},
-				channel_id: String 
+				channel_id: String
 			},
 			server_region_updated_message: {
 				isEnabled: {type: Boolean, default: false},
-				channel_id: String 
+				channel_id: String
 			},
 			new_member_message: {
 				isEnabled: {type: Boolean, default: false},
@@ -252,16 +265,3 @@ module.exports = {
 	})],
 	voicetext_channels: [String]
 };
-
-// Get command(s) structure for server config schema above
-function getCommands() {
-	var commandsStructure = {};
-	for(var command in commands.public) {
-		commandsStructure[command] = {
-			isEnabled: {type: Boolean, default: commands.public[command].defaults.is_enabled},
-			admin_level: {type: Number, default: commands.public[command].defaults.admin_level, min: 0, max: 4},
-			disabled_channel_ids: [String]
-		};
-	}
-	return commandsStructure;
-}

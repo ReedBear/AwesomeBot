@@ -1,6 +1,6 @@
 module.exports = (bot, db, config, winston, userDocument, serverDocument, channelDocument, memberDocument, msg, suffix, commandData) => {
 	if(suffix) {
-		var num, query;
+		let num, query;
 		if(suffix.indexOf(" ")>-1) {
 			num = suffix.substring(0, suffix.indexOf(" ")).trim();
 			query = suffix.substring(suffix.indexOf(" ")+1).trim();
@@ -9,15 +9,15 @@ module.exports = (bot, db, config, winston, userDocument, serverDocument, channe
 		}
 
 		if(!num || isNaN(num) || (num!=-1 && num<2)) {
-			winston.warn("Invalid parameters '" + suffix + "' provided for " + commandData.name + " command", {svrid: msg.guild.id, chid: msg.channel.id, usrid: msg.author.id});
-			msg.channel.createMessage(msg.author.mention + " I need a valid 🔢 of messages to delete");
+			winston.warn(`Invalid parameters '${suffix}' provided for ${commandData.name} command`, {svrid: msg.guild.id, chid: msg.channel.id, usrid: msg.author.id});
+			msg.channel.createMessage(`${msg.author.mention} I need a valid 🔢 of messages to delete`);
 		} else {
 			num = parseInt(num);
 
-			var filter = () => {
+			let filter = () => {
 				return true;
 			};
-			var before, after;
+			let before, after;
 			if(query) {
 				query = query.trim();
 				if(query.startsWith(":") && query.length>1) {
@@ -29,7 +29,7 @@ module.exports = (bot, db, config, winston, userDocument, serverDocument, channe
 				} else if(query.startsWith("<") && query.length>1 && !isNaN(query.slice(1))) {
 					before = query.slice(1);
 				} else {
-					var member;
+					let member;
 					if(query.startsWith("<@") && query.indexOf(">")>-1) {
 						member = bot.memberSearch(query, msg.guild);
 					}
@@ -40,20 +40,20 @@ module.exports = (bot, db, config, winston, userDocument, serverDocument, channe
 					} else {
 						filter = message => {
 							return message.content.toLowerCase()==query.toLowerCase();
-						}
+						};
 					}
 				}
 			}
 
 			msg.channel.purge(num, filter, before, after).then(deleted => {
-				msg.channel.createMessage("🗑🔥 Deleted " + deleted + " message" + (deleted==1 ? "" : "s") + " in this channel");
-			}).catch(err => {
-				winston.error("Failed to " + commandData.name + " in channel '" + msg.channel.name + "' on server '" + msg.guild.name + "'", {svrid: msg.guild.id, chid: msg.channel.id, usrid: msg.author.id}, err);
+				msg.channel.createMessage(`🗑🔥 Deleted ${deleted} message${deleted==1 ? "" : "s"} in this channel`);
+			})["catch"](err => {
+				winston.error(`Failed to ${commandData.name} in channel '${msg.channel.name}' on server '${msg.guild.name}'`, {svrid: msg.guild.id, chid: msg.channel.id, usrid: msg.author.id}, err);
 				msg.channel.createMessage("Uh oh, I couldn't delete all those messages. Try a smaller number...or maybe I just don't have permissions to nuke this channel 💣");
 			});
 		}
 	} else {
-		winston.warn("Parameters not provided for " + commandData.name + " command", {svrid: msg.guild.id, chid: msg.channel.id, usrid: msg.author.id});
-		msg.channel.createMessage(msg.author.mention + " hmmm? `" + bot.getCommandPrefix(msg.guild, serverDocument) + commandData.name + " " + commandData.usage + "`");
+		winston.warn(`Parameters not provided for ${commandData.name} command`, {svrid: msg.guild.id, chid: msg.channel.id, usrid: msg.author.id});
+		msg.channel.createMessage(`${msg.author.mention} hmmm? \`${bot.getCommandPrefix(msg.guild, serverDocument)}${commandData.name} ${commandData.usage}\``);
 	}
 };

@@ -1,4 +1,5 @@
 "use strict";
+const Util = require("./../Util");
 
 // a representation of eris/User
 module.exports = class User {
@@ -14,11 +15,10 @@ module.exports = class User {
 		this.mention = erisUser.mention;
 		this.username = erisUser.username;
 
-
 		this.createMessage = (content, file, cb) => {
 			erisUser.getDMChannel().then(erisPrivateChannel => {
 				erisPrivateChannel.createMessage(content, file).then(erisMessage => {
-					if (Util.isFunction(cb)) {
+					if(Util.isFunction(cb)) {
 						const Message = require("./Message");
 						cb(new Message(erisMessage));
 					}

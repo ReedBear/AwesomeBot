@@ -7,8 +7,8 @@ module.exports = (bot, db, config, winston, userDocument, serverDocument, channe
 	}
 
 	if(suffix) {
-		var query = suffix.substring(0, suffix.lastIndexOf(" "));
-		var num = suffix.substring(suffix.lastIndexOf(" ")+1);
+		let query = suffix.substring(0, suffix.lastIndexOf(" "));
+		let num = suffix.substring(suffix.lastIndexOf(" ")+1);
 
 		if(!query || isNaN(num)) {
 			query = suffix;
@@ -20,13 +20,13 @@ module.exports = (bot, db, config, winston, userDocument, serverDocument, channe
 			num = parseInt(num);
 		}
 
-		getRSS(winston, "http://twitrss.me/twitter_user_to_rss/?user=" + encodeURIComponent(query), num, (err, articles) => {
+		getRSS(winston, `http://twitrss.me/twitter_user_to_rss/?user=${encodeURIComponent(query)}`, num, (err, articles) => {
 			if(err || articles.length==0) {
-				winston.warn("Twitter user '" + query + "' not found", {svrid: msg.guild.id, chid: msg.channel.id, usrid: msg.author.id});
-				msg.channel.createMessage("I can't find a " + query + " on Twitter 🐦");
+				winston.warn(`Twitter user '${query}' not found`, {svrid: msg.guild.id, chid: msg.channel.id, usrid: msg.author.id});
+				msg.channel.createMessage(`I can't find a ${query} on Twitter 🐦`);
 			} else {
-				var info = articles.reverse().map(a => {
-					return a.author + ", " + moment(a.published).fromNow() + "\n**<" + a.link + ">**" + "```" + a.title + "```";
+				const info = articles.reverse().map(a => {
+					return `${a.author}, ${moment(a.published).fromNow()}\n**<${a.link}>**` + `\`\`\`${a.title}\`\`\``;
 				});
 				bot.sendArray(msg.channel, info);
 			}

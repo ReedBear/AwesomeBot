@@ -4,10 +4,10 @@ const getRSS = require("feed-read");
 // Fetch n entries from an RSS feed
 module.exports = (winston, url, num, callback) => {
 	if(typeof(callback)=="function") {
-		function handleError(err) {
+		const handleError = err => {
 			winston.error("Failed to process RSS feed request", err);
 			callback(err);
-		}
+		};
 		try {
 			const rssDomain = domain.create();
 			rssDomain.run(() => {

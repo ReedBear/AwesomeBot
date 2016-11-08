@@ -1,13 +1,13 @@
-var multiplier = 1;
+let multiplier = 1;
 module.exports = {
-	multiplier: multiplier,
+	multiplier,
 	start: (db, svr, serverDocument, usr, ch, channelDocument) => {
 		if(!channelDocument.lottery.isOngoing) {
 			channelDocument.lottery.isOngoing = true;
 			channelDocument.lottery.expiry_timestamp = Date.now() + 3600000;
 			channelDocument.lottery.creator_id = usr.id;
 			channelDocument.lottery.participant_ids = [];
-			serverDocument.save(err => {
+			serverDocument.save(() => {
 				multiplier += 0.5;
 				setTimeout(() => {
 					module.exports.end(db, svr, serverDocument, ch, channelDocument);
@@ -18,31 +18,31 @@ module.exports = {
 	end: (db, svr, serverDocument, ch, channelDocument) => {
 		if(channelDocument.lottery.isOngoing) {
 			channelDocument.lottery.isOngoing = false;
-			var winner;
+			let winner;
 			while(!winner && channelDocument.lottery.participant_ids.length>1) {
-				var i = Math.floor(Math.random() * channelDocument.lottery.participant_ids.length);
-				var member = svr.members.get(channelDocument.lottery.participant_ids[i]);
+				const i = Math.floor(Math.random() * channelDocument.lottery.participant_ids.length);
+				const member = svr.members.get(channelDocument.lottery.participant_ids[i]);
 				if(member) {
 					winner = member;
 				} else {
 					channelDocument.lottery.participant_ids.splice(i, 1);
 				}
 			}
-			serverDocument.save(err => {
+			serverDocument.save(() => {
 				if(winner) {
-					var prize = Math.ceil(channelDocument.lottery.participant_ids.length * multiplier);
+					const prize = Math.ceil(channelDocument.lottery.participant_ids.length * multiplier);
 					db.users.findOrCreate({_id: winner.id}, (err, userDocument) => {
 						if(!err && userDocument) {
 							userDocument.points += prize;
 						}
-						var participantCount = channelDocument.lottery.participant_ids.filter((elem, i, self) => {
-						    return i==self.indexOf(elem);
+						const participantCount = channelDocument.lottery.participant_ids.filter((elem, i, self) => {
+							return i==self.indexOf(elem);
 						}).length;
-						ch.createMessage("Congratulations " + winner.mention + "! 🎊 You won the lottery for **" + prize + "** AwesomePoints out of " + participantCount + " participant" + (participantCount==1 ? "" : "s") + ". Enjoy the cash 💰");
+						ch.createMessage(`Congratulations ${winner.mention}! 🎊 You won the lottery for **${prize}** AwesomePoints out of ${participantCount} participant${participantCount==1 ? "" : "s"}. Enjoy the cash 💰`);
 					});
 				}
 			});
 			return winner;
 		}
 	}
-}
+};
