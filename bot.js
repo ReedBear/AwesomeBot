@@ -3,7 +3,7 @@ try {
     const Discord = require("discord.js");
     var configs = require("./data/config.json");
     const configDefaults = require("./defaults.json");
-    var AuthDetails = require("./auth.json");
+    var AuthDetails = require("./auth.js");
     var profileData = require("./data/profiles.json");
     var stats = require("./data/stats.json");
     var filter = require("./filter.json");

@@ -1,5 +1,5 @@
-{
-    "token" : process.env.DISCORD_TOKEN,
+module.exports = {
+    "token": process.env.DISCORD_TOKEN,
     "client_id": process.env.DISCORD_CLIENT_ID,
     "server_port": 8080,
     "server_ip_address": "127.0.0.1",
