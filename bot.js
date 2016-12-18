@@ -66,6 +66,8 @@ try {
     process.exit(1);
 }
 
+configs.maintainer = process.env.DISCORD_MAINTAINER_ID;
+
 // Bot setup
 var version = "3.4.3";
 var outOfDate = 0;
