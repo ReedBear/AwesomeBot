@@ -75,7 +75,7 @@ configs.avatar_url = "http://vignette1.wikia.nocooki;.net/playstationallstarsfan
 configs.custom_search_id = process.env.GOOGLE_CUSTOM_SEARCH;
 configs.imgur_client_id = process.env.IMGUR_CLIENT_ID;
 configs.wolfram_app_id = process.env.WOLFRAM_API;
-
+configs.hosting = "http://cotobot.herokuapp.com";
 // Bot setup
 var version = "3.4.3";
 var outOfDate = 0;
