@@ -1912,6 +1912,7 @@ var commands = {
     "gif": {
 		usage: "<GIF tags>",
 		process: function(bot, msg, suffix) {
+            console.log('process gif command');
             if(!suffix) {
                 logMsg(Date.now(), "WARN", msg.channel.server.id, msg.channel.id, "User did not provide GIF search term(s)");
                 bot.sendMessage(msg.channel, msg.author + " I don't know of a GIF for nothing.");
@@ -4433,6 +4434,7 @@ function messageHandler(msg) {
 
     // Stuff that only applies to PMs
     if(msg.channel.isPrivate) {
+        console.log('private chan');
         // Update command from maintainer
         if(updateconsole && msg.author.id==configs.maintainer && msg.content=="update") {
             updateBot(msg);
@@ -4498,6 +4500,7 @@ function messageHandler(msg) {
             suffix = cmdTxt.substring(cmdTxt.indexOf(" ")+1).trim();
             cmdTxt = cmdTxt.substring(0, cmdTxt.indexOf(" ")).toLowerCase();
         }
+        console.log('creating cmd : ', cmdTxt);
         var cmd = pmcommands[cmdTxt];
         if(cmd) {
             if(cmdTxt!="config" || suffix) {
@@ -8754,7 +8757,7 @@ function getGIF(tags, rating, callback) {
         if(tags!==null) {
             query += "&tag=" + tags.join("+")
         }
-
+        console.log('giphy query : ', "http://api.giphy.com/v1/gifs/random?" + query);
         unirest.get("http://api.giphy.com/v1/gifs/random?" + query)
         .header("Accept", "application/json")
         .end(function(response) {
