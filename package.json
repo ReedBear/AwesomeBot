@@ -48,7 +48,7 @@
     "xml-parser": "*"
   },
   "scripts": {
-    "start": "node --max_old_space_size=450 bot.js --production"
+    "start": "node --max_old_space_size=450 bot.js"
   },
   "main": "bot.js"
 }
