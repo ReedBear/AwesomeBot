@@ -6,6 +6,9 @@
     "type": "git",
     "url": "https://github.com/BitQuote/AwesomeBot.git"
   },
+  "engines": {
+    "node": "5.12.0"
+  },
   "license": "CCPL",
   "dependencies": {
     "discord.js": "hydrabolt/discord.js#8.1.0",
