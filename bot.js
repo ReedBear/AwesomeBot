@@ -67,6 +67,14 @@ try {
 }
 
 configs.maintainer = process.env.DISCORD_MAINTAINER_ID;
+configs.token = process.env.DISCORD_TOKEN;
+configs.client_id = process.env.DISCORD_CLIENT_ID;
+configs.server_port = process.env.PORT;
+configs.giphy_api_key = process.env.GIPHY;
+configs.avatar_url = "http://vignette1.wikia.nocooki;.net/playstationallstarsfanfictionroyale/images/9/9f/Claptrap.png/revision/latest?cb=20130609075927";
+configs.custom_search_id = process.env.GOOGLE_CUSTOM_SEARCH;
+configs.imgur_client_id = process.env.IMGUR_CLIENT_ID;
+configs.wolfram_app_id = process.env.WOLFRAM_API;
 
 // Bot setup
 var version = "3.4.3";
