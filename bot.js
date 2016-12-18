@@ -4356,7 +4356,7 @@ bot.on("ready", function() {
 
         // Start listening for web interface
         try {
-            app.listen(server_port, server_ip_address, function() {
+            app.listen(server_port, function() {
                 openedweb = true;
                 logMsg(Date.now(), "INFO", "General", null, "Opened web interface on " + server_ip_address + ", server port " + server_port);
                 process.setMaxListeners(50);
