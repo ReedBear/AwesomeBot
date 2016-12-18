@@ -9592,9 +9592,11 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 function setup(i) {
+    console.log('Setup ', i);
     if(i<Object.keys(AuthDetails).length) {
         var key = Object.keys(AuthDetails)[i];
         if(!AuthDetails[key]) {
+            console.log('No details for ', key, AuthDetails);
             rl.question("Enter " + key + ": ", function(input) {
                 AuthDetails[key] = input;
                 saveData("./auth.json", function(err) {
